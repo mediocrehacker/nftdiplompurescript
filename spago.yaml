@@ -1,0 +1,14 @@
+package:
+  name: nftdiplompurescript
+  dependencies:
+    - console
+    - effect
+    - halogen
+    - prelude
+  test:
+    main: Test.Main
+    dependencies: []
+workspace:
+  package_set:
+    registry: 50.5.0
+  extra_packages: {}
