@@ -6,8 +6,8 @@ import Effect (Effect)
 import Halogen as H
 import Halogen.Aff as HA
 import Halogen.HTML as HH
-import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
+import Halogen.HTML.Events as HE
 import Halogen.VDom.Driver (runUI)
 
 main :: Effect Unit
@@ -15,25 +15,34 @@ main = HA.runHalogenAff do
   body <- HA.awaitBody
   runUI component unit body
 
+type State = Int
+
 data Action = Increment | Decrement
 
+component :: forall query input output m. H.Component query input output m
 component =
   H.mkComponent
     { initialState
     , render
-    , eval: H.mkEval $ H.defaultEval { handleAction = handleAction }
+    , eval: H.mkEval H.defaultEval { handleAction = handleAction }
     }
 
-  where
-  initialState _ = 0
+initialState :: forall input. input -> State
+initialState _ = 0
 
-  render state =
-    HH.div_
+render :: forall m. State -> H.ComponentHTML Action () m
+render state =
+    HH.div [ HP.classes [HH.ClassName "flex gap-8"]]
       [ HH.button [ HE.onClick \_ -> Decrement, HP.classes [HH.ClassName "text-lg btn"] ] [ HH.text "-" ]
       , HH.div_ [ HH.text $ show state ]
       , HH.button [ HE.onClick \_ -> Increment, HP.classes [HH.ClassName "btn" ] ] [ HH.text "+" ]
       ]
 
-  handleAction = case _ of
-    Increment -> H.modify_ \state -> state + 5
-    Decrement -> H.modify_ \state -> state - 1
+handleAction :: forall output m. Action -> H.HalogenM State Action () output m Unit
+handleAction = case _ of
+  Decrement ->
+    H.modify_ \state -> state - 1
+
+  Increment ->
+    H.modify_ \state -> state + 1
+
