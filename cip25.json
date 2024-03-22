@@ -1,0 +1,20 @@
+{
+  "721": {
+    "<policy_id>": {
+      "<asset_name>": {
+        "name": <string>,
+        "image": <uri | array>,
+        "mediaType": image/<mime_sub_type>,
+        "description": <string | array>,
+        "files": [{
+          "name": <string>,
+          "mediaType": <mime_type>,
+          "src": <uri | array>,
+          <other_properties>
+        }],
+        <other properties>
+      }
+    },
+    "version": 2 
+  }
+}

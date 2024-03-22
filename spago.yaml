@@ -1,11 +1,16 @@
 package:
   name: nftdiplompurescript
   dependencies:
+    - affjax
+    - affjax-web
+    - argonaut
     - console
     - effect
     - halogen
+    - halogen-formless
     - prelude
     - random
+    - web-html
   test:
     main: Test.Main
     dependencies: []
