@@ -7,6 +7,7 @@ import Halogen as H
 import Halogen.Aff as HA
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
+import Halogen.HTML.Properties as HP
 import Halogen.VDom.Driver (runUI)
 
 main :: Effect Unit
@@ -30,7 +31,7 @@ component =
 
   render state =
     HH.div_
-      [ HH.button [ HE.onClick \_ -> Decrement ] [ HH.text "-" ]
+      [ HH.button [ HE.onClick \_ -> Decrement, HP.classes [HH.ClassName "text-lg btn"] ] [ HH.text "-" ]
       , HH.div_ [ HH.text $ show state ]
       , HH.button [ HE.onClick \_ -> Increment ] [ HH.text "+" ]
       ]

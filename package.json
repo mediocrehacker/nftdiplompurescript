@@ -14,14 +14,15 @@
     "serve": "spago build && esbuild --bundle index.js --outfile=dist/index.js --servedir=dist",
     "bundle": "spago build --output output-es && purs-backend-es bundle-app --main Main --minify --no-build --to dist/index.js",
     "dev": "vite",
-    "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^5.2.2",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.1",
     "vite": "^5.2.0"
   }
 }
