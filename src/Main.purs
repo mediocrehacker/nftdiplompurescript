@@ -2,47 +2,60 @@ module Main where
 
 import Prelude
 
+import Data.Maybe (Maybe(..), maybe)
 import Effect (Effect)
+import Effect.Class (class MonadEffect)
+import Effect.Random (random)
 import Halogen as H
-import Halogen.Aff as HA
+import Halogen.Aff (awaitBody, runHalogenAff)
 import Halogen.HTML as HH
-import Halogen.HTML.Properties as HP
 import Halogen.HTML.Events as HE
 import Halogen.VDom.Driver (runUI)
 
 main :: Effect Unit
-main = HA.runHalogenAff do
-  body <- HA.awaitBody
+main = runHalogenAff do
+  body <- awaitBody
   runUI component unit body
 
-type State = Int
+type State = Maybe Number
 
-data Action = Increment | Decrement
+data Action = Regenerate
 
-component :: forall query input output m. H.Component query input output m
+component :: forall query input output m. MonadEffect m => H.Component query input output m
 component =
   H.mkComponent
     { initialState
     , render
-    , eval: H.mkEval H.defaultEval { handleAction = handleAction }
+    , eval: H.mkEval $ H.defaultEval { handleAction = handleAction }
     }
 
 initialState :: forall input. input -> State
-initialState _ = 0
+initialState _ = Nothing
 
 render :: forall m. State -> H.ComponentHTML Action () m
-render state =
-    HH.div [ HP.classes [HH.ClassName "flex gap-8"]]
-      [ HH.button [ HE.onClick \_ -> Decrement, HP.classes [HH.ClassName "text-lg btn"] ] [ HH.text "-" ]
-      , HH.div_ [ HH.text $ show state ]
-      , HH.button [ HE.onClick \_ -> Increment, HP.classes [HH.ClassName "btn" ] ] [ HH.text "+" ]
-      ]
+render state = do
+  let value = maybe "No number generated yet" show state
+  HH.div_
+    [ HH.h1_
+        [ HH.text "Random number" ]
+    , HH.p_
+        [ HH.text ("Current value: " <> value) ]
+    , HH.button
+        [ HE.onClick \_ -> Regenerate ]
+        [ HH.text "Generate new number" ]
+    ]
 
-handleAction :: forall output m. Action -> H.HalogenM State Action () output m Unit
+handleAction :: forall output m. MonadEffect m => Action -> H.HalogenM State Action () output m Unit
 handleAction = case _ of
-  Decrement ->
-    H.modify_ \state -> state - 1
+  Regenerate -> do
+    newNumber <- H.liftEffect random
+    H.modify_ \_ -> Just newNumber
 
-  Increment ->
-    H.modify_ \state -> state + 1
+-- render :: forall m. State -> H.ComponentHTML Action () m
+-- render state =
+--     HH.div [ HP.classes [HH.ClassName "flex gap-8"]]
+--       [ HH.button [ HE.onClick \_ -> Decrement, HP.classes [HH.ClassName "text-lg btn"] ] [ HH.text "-" ]
+--       , HH.div_ [ HH.text $ show state ]
+--       , HH.button [ HE.onClick \_ -> Increment, HP.classes [HH.ClassName "btn" ] ] [ HH.text "+" ]
+--       ]
 
