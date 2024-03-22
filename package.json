@@ -12,9 +12,16 @@
     "build": "spago build",
     "test": "spago test",
     "serve": "spago build && esbuild --bundle index.js --outfile=dist/index.js --servedir=dist",
-    "bundle": "spago build --output output-es && purs-backend-es bundle-app --main Main --minify --no-build --to dist/index.js"
+    "bundle": "spago build --output output-es && purs-backend-es bundle-app --main Main --minify --no-build --to dist/index.js",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  }
 }
