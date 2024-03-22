@@ -7,6 +7,7 @@ workspace:
         - effect
         - halogen
         - prelude
+        - random
       test_dependencies: []
       build_plan:
         - aff
@@ -58,6 +59,7 @@ workspace:
         - partial
         - prelude
         - profunctor
+        - random
         - refs
         - safe-coerce
         - st
@@ -1118,6 +1120,13 @@ packages:
       - newtype
       - prelude
       - tuples
+  random:
+    type: registry
+    version: 6.0.0
+    integrity: sha256-CJ611a35MPCE7XQMp0rdC6MCn76znlhisiCRgboAG+Q=
+    dependencies:
+      - effect
+      - integers
   refs:
     type: registry
     version: 6.0.0

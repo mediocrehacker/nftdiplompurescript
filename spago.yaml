@@ -5,6 +5,7 @@ package:
     - effect
     - halogen
     - prelude
+    - random
   test:
     main: Test.Main
     dependencies: []
