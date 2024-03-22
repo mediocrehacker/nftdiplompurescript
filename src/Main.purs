@@ -27,13 +27,11 @@ component =
   where
   initialState _ = 0
 
-
-
   render state =
     HH.div_
       [ HH.button [ HE.onClick \_ -> Decrement, HP.classes [HH.ClassName "text-lg btn"] ] [ HH.text "-" ]
       , HH.div_ [ HH.text $ show state ]
-      , HH.button [ HE.onClick \_ -> Increment ] [ HH.text "+" ]
+      , HH.button [ HE.onClick \_ -> Increment, HP.classes [HH.ClassName "btn" ] ] [ HH.text "+" ]
       ]
 
   handleAction = case _ of
