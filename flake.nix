@@ -38,6 +38,7 @@
             pkgs.purs
             pkgs.purs-tidy
             pkgs.purs-backend-es
+            pkgs.pscid
             pkgs.purescript-language-server
             pkgs.spago-unstable
           ]
